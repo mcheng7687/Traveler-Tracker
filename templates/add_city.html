@@ -1,0 +1,12 @@
+{% extends 'base.html' %}
+
+{% block contents %}
+
+<h1>Add City</h1>
+
+<form action="/city/add" method="POST">
+    {% include "form.html" %}
+</form>
+
+
+{% endblock %}

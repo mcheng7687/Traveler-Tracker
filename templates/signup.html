@@ -1,0 +1,12 @@
+{% extends 'base.html' %}
+
+{% block contents %}
+
+<h1>Sign Up</h1>
+
+<form action="/signup" method="POST">
+    {% include "form.html" %}
+</form>
+
+
+{% endblock %}

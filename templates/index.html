@@ -1,0 +1,40 @@
+{% extends 'base.html' %}
+
+{% block contents %}
+
+<h1> Here are your cities: </h1>
+{% if cities %}
+<div class="container-fluid">
+    <div class="row row-cols-4">
+        {% for city in cities %}
+        <div class="col">
+            <div class="border border-5 border-primary rounded">
+                <form action="/city/{{city.id}}/remove" method="POST">
+                    <!-- Remove city from traveler home page-->
+                    <div class="d-flex justify-content-between">
+                        <strong class="h4 city">
+                            {{ city.name }}
+                        </strong>
+                        <a onclick="this.parentNode.parentNode.submit();" class="link-primary justify-content-end">
+                            <small>
+                                Remove
+                            </small>
+                        </a>
+                    </div>
+                </form>
+                <div id="{{city.name.replace(' ','')}}">
+                    <!-- City Info -->
+                </div>
+                <div class="{{city.country.currency_code}}">
+                    <!-- Foreign currency exchange info -->
+                </div>
+            </div>
+        </div>
+        {% endfor %}
+    </div>
+</div>
+{% endif %}
+
+<script src="/static/API_Keys.js"></script>
+<script src="/static/script.js"></script>
+{% endblock %}
