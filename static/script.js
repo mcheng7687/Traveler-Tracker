@@ -1,9 +1,10 @@
 class City {
-    constructor(cityName, temp, localTime, weatherState) {
+    constructor(cityName, temp, localTime, weatherState, weatherIcon) {
         this.cityName = cityName;
         this.temp = temp;
         this.localTime = localTime;
         this.weatherState = weatherState;
+        this.weatherIcon = weatherIcon;
       }
 }
 
@@ -44,7 +45,8 @@ async function getWeather(cityName) {
     const city = new City(cityName, 
                         cityInfo.data.current.feelslike_f, 
                         cityInfo.data.location.localtime,
-                        cityInfo.data.current.condition.text);
+                        cityInfo.data.current.condition.text,
+                        cityInfo.data.current.condition.icon);
 
     return city;
 }
@@ -53,9 +55,10 @@ async function getWeather(cityName) {
 //"city" arguement is of class City
 function updateCityWeather(city) {
     console.log(city);
-    $(`#${city.cityName.replace(" ", '')}`).html(`<h6>Local Time: ${city.localTime}</h6>
-                                                  <h6>Conditions: ${city.weatherState}</h6>
-                                                  <h6>Current Temperature (\xB0F): ${city.temp}</h6>
+    $(`#${city.cityName.replace(" ", '')}`).html(`<h6 class="text-center">${city.localTime}</h6>
+                                                  <h6 class="text-center">${city.weatherState}</h6>
+                                                  <img class="center-block" src=${city.weatherIcon} alt="${city.weatherState}" />
+                                                  <h3 class="text-center">${city.temp}\xB0F</h3>
                                                   `);
 }
 
@@ -77,7 +80,15 @@ const cityNames = getCityList();
 const codes = new Set ();
 const base = "USD"
 
-/*
+$(".btn").hover( function () {
+    $(this).removeClass("btn-outline-warning");
+    $(this).addClass("btn-warning");
+}, function () {
+    $(this).addClass("btn-outline-warning");
+    $(this).removeClass("btn-warning");
+});
+
+///*
 getExchangeRates(base).then(function(rates) {
     const currency_codes = getCurrencyCodes(cityNames);
 
@@ -89,7 +100,7 @@ getExchangeRates(base).then(function(rates) {
         getWeather(cityName.trim()).then(updateCityWeather);
     }
 });
-*/
+//*/
 
 const rep = setInterval(function () {
 
@@ -98,7 +109,5 @@ const rep = setInterval(function () {
     }
 
 }, 300000);
-
-
 
 // End here

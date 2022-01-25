@@ -1,12 +1,14 @@
 {% extends 'base.html' %}
 
 {% block contents %}
-
-<h1>Add City</h1>
-
-<form action="/city/add" method="POST">
-    {% include "form.html" %}
-</form>
+<div class="container">
+    <h2>Add City</h2>
+    <br>
+    <form action="/city/add" method="POST">
+        {% include "form.html" %}
+        <button type="submit" class="btn btn-outline-warning">Add</button>
+    </form>
+</div>
 
 
 {% endblock %}

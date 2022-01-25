@@ -2,35 +2,47 @@
 
 {% block contents %}
 
-<h1> Here are your cities: </h1>
+<h2> Here are your cities: </h2>
+<br>
 {% if cities %}
 <div class="container-fluid">
     <div class="row row-cols-4">
         {% for city in cities %}
         <div class="col">
-            <div class="border border-5 border-primary rounded">
+            <div class="border border-5 border-warning rounded city-block">
                 <form action="/city/{{city.id}}/remove" method="POST">
                     <!-- Remove city from traveler home page-->
                     <div class="d-flex justify-content-between">
-                        <strong class="h4 city">
-                            {{ city.name }}
-                        </strong>
-                        <a onclick="this.parentNode.parentNode.submit();" class="link-primary justify-content-end">
-                            <small>
-                                Remove
-                            </small>
-                        </a>
+                        <br>    
+                        <button type="submit" class="btn btn-outline-warning border-0">
+                            <i class="fas fa-trash-alt" style="font-size:24px"></i>
+                        </button>
                     </div>
                 </form>
+                <h4 class="text-center">
+                    <strong class="city">
+                        {{ city.name }}
+                    </strong>
+                </h4>
                 <div id="{{city.name.replace(' ','')}}">
                     <!-- City Info -->
                 </div>
-                <div class="{{city.country.currency_code}}">
+                <div class="{{city.country.currency_code}} text-center">
                     <!-- Foreign currency exchange info -->
                 </div>
             </div>
         </div>
         {% endfor %}
+        <div class="col">
+            <div class="border border-5 border-warning rounded text-center city-block">
+                <form type="submit" action="/city/add" class="full">
+                    <button class="btn btn-outline-warning center-block full">
+                        <i class="fas fa-plus align-middle" style="font-size:36px"></i>
+                        <i class="fas fa-city align-middle" style="font-size:36px"></i>
+                    </button>
+                </form>
+            </div>
+        </div>
     </div>
 </div>
 {% endif %}

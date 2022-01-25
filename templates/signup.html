@@ -2,11 +2,14 @@
 
 {% block contents %}
 
-<h1>Sign Up</h1>
-
-<form action="/signup" method="POST">
-    {% include "form.html" %}
-</form>
+<div class="container">
+    <h3>Sign Up</h3>
+    <br>
+    <form action="/signup" method="POST">
+        {% include "form.html" %}
+        <button type="submit" class="btn btn-outline-warning">Sign Up Now</button>
+    </form>
+</div>
 
 
 {% endblock %}

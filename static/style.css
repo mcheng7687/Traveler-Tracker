@@ -1,0 +1,21 @@
+.center-block {
+    display: block;
+    margin-left: auto;
+    margin-right: auto;
+ }
+
+ .city-block {
+     height: 300px;
+     background: rgb(30, 30, 75);
+     color: chartreuse;
+ }
+
+ .full {
+     height:100%;
+     width:100%;
+ }
+
+ body {
+     background-color: rgb(30, 30, 75);
+     color:sandybrown;
+ }
