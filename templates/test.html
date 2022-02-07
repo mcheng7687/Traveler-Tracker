@@ -1,0 +1,14 @@
+{% extends 'base.html' %}
+
+{% block contents %}
+<div class="container">
+    <h2>Add City</h2>
+    <br>
+    <form action="/test" method="POST">
+        {% include "form.html" %}
+        <button type="submit" class="btn btn-outline-warning">Add</button>
+    </form>
+</div>
+
+
+{% endblock %}

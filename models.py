@@ -55,6 +55,13 @@ class Traveler(db.Model):
         nullable=False
     )
 
+    home_country = db.Column(
+        db.Integer,
+        db.ForeignKey('country.id')
+    )
+
+    country = db.relationship("Country")
+
     cities = db.relationship("City", 
         secondary = "traveler_city",
         backref = "travelers")
@@ -77,8 +84,18 @@ class Traveler(db.Model):
 
         return True
 
+    def updateInfo(self, first_name, last_name, email, home_country):
+        """ Update personal info """
+        
+        self.first_name = first_name
+        self.last_name = last_name
+        self.email = email
+        self.home_country = home_country.id
+
+        db.session.commit()
+
     @classmethod
-    def signup(cls, first_name, last_name, email, password):
+    def signup(cls, first_name, last_name, email, password, home_country_id):
         """ Sign up traveler. Hashes password and adds traveler to system. """
 
         hashed_pwd = bcrypt.generate_password_hash(password).decode('UTF-8')
@@ -87,7 +104,8 @@ class Traveler(db.Model):
             first_name=first_name,
             last_name=last_name,
             email=email,
-            password=hashed_pwd
+            password=hashed_pwd,
+            home_country=home_country_id
         )
 
         db.session.add(traveler)
@@ -173,8 +191,7 @@ class Country(db.Model):
     )
 
     currency_code = db.Column(
-        db.Text,
-        # default="USD"
+        db.Text
     )
 
     cities = db.relationship("City", cascade="all, delete")
@@ -183,13 +200,13 @@ class Country(db.Model):
         return f"<Country #{self.id}: {self.name}>"
 
     @classmethod
-    def new_country(cls, country_name, currency_code):
+    def new_country(cls, country_name):
         """ Adds new country to system if none exists. """
 
         country = Country.query.filter(Country.name == country_name).one_or_none()
 
         if not country:
-            #MUST DO! Add currency code from API to country
+            currency_code = Country.find_currency_code(country_name)
 
             country = Country(name = country_name, currency_code = currency_code)
 
@@ -197,6 +214,15 @@ class Country(db.Model):
             db.session.commit()
 
         return country
+    
+    @classmethod
+    def find_currency_code(cls, country_name):
+        """ Find currency code from API. Returns currency code. """
+        response = requests.get("https://restcountries.com/v2/all?fields=name,currencies")
+
+        for country in response.json():
+            if country["name"] == country_name:
+                return country["currencies"][0]["code"]
 
 class TravelerCity(db.Model):
     """ Traveler - City relationship class """

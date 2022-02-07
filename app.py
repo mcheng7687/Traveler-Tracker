@@ -1,8 +1,9 @@
 from flask import Flask, render_template, flash, redirect, session, request, jsonify, g
 from models import db, connect_db, Traveler, City, Country, TravelerCity
-from forms import AddTravelerForm, LoginTravelerForm, AddCityForm
+from forms import TravelerForm, LoginTravelerForm, AddCityForm, UpdateTravelerForm
 from sqlalchemy.exc import IntegrityError
 import requests
+from API_Keys import WEATHER_API_KEY
 
 app = Flask(__name__)
 app.config["SQLALCHEMY_DATABASE_URI"] = "postgresql:///traveler_tracker"
@@ -32,7 +33,6 @@ def home():
     if g.traveler:
         cities = g.traveler.cities
         
-
         return render_template("index.html", cities = cities)
     else:
         return redirect("/signup")
@@ -60,15 +60,21 @@ def logout():
 def signup():
     """ Sign up form for new travelers. """
 
-    form = AddTravelerForm()
+    form = TravelerForm()
+
+    response = requests.get("https://restcountries.com/v2/all?fields=name,currencies")
+    form.current_country.choices = [(c["name"], c["name"]) for c in response.json()]
 
     if form.validate_on_submit():
         try:
+            country = Country.new_country(form.current_country.data)
+
             traveler = Traveler.signup(
                 first_name = form.first_name.data,
                 last_name = form.last_name.data,
                 password = form.password.data,
-                email = form.email.data
+                email = form.email.data,
+                home_country = country.id
             )
 
         except IntegrityError:
@@ -101,6 +107,32 @@ def login_traveler():
 
     return render_template('login.html', form = form)
 
+@app.route("/current_traveler", methods=["GET", "POST"])
+def update_user():
+    """ Update current traveler info """
+
+    form = UpdateTravelerForm(obj=g.traveler)
+
+    response = requests.get("https://restcountries.com/v2/all?fields=name,currencies")
+
+    form.current_country.choices = [(c["name"], c["name"]) for c in response.json()]
+
+    if form.validate_on_submit():
+        home_country = Country.new_country(form.current_country.data)
+
+        try:
+            g.traveler.updateInfo(form.first_name.data, form.last_name.data, form.email.data, home_country)
+
+            flash("Updated info!")
+            return redirect ("/")
+
+        except IntegrityError:
+            flash("Email already taken", 'danger')
+        
+    form.current_country.data = g.traveler.country.name
+
+    return render_template("update_traveler.html", form = form)
+
 @app.route("/logout")
 def logout_traveler():
     """ Logout current traveler """
@@ -113,16 +145,21 @@ def logout_traveler():
 ############################################################
 # City/country methods
 
-def find_currency_code(JSONresponse, country_name):
-    for country in JSONresponse:
-        if country["name"] == country_name:
-            return country["currencies"][0]["code"]
+def verify_city_country(city, country):
+    response = requests.get("http://api.weatherapi.com/v1/search.json", params={"key": WEATHER_API_KEY, "q": city})
+
+    for c in response.json():
+        if (city in c["name"] or c["name"] in city) and (country in c["country"] or c["country"] in country):
+            return c["name"]
+    
+    return False
+
 
 ############################################################
 # City/country routes
 
 @app.route("/city/add", methods=["GET", "POST"])
-def add_city():
+def add_city_form():
     """ Add city to current traveler. Add country with currency code from API @ 
         https://restcountries.com/#api-endpoints-v2-name
     """
@@ -135,15 +172,28 @@ def add_city():
 
     if form.validate_on_submit():
 
-        currency_code = find_currency_code(response.json(), form.country_name.data)
-        
-        country = Country.new_country(form.country_name.data, currency_code)
-        city = City.new_city(form.city_name.data, country.id)
-        g.traveler.assign_city(city)
+        city_name = verify_city_country(form.city_name.data, form.country_name.data)
 
-        return redirect("/")
+        if city_name:
+            return render_template("verify_city.html", city_name=city_name, 
+                                                        country_name=form.country_name.data)
+                                                    
+        flash(f"Could not find {form.city_name.data} in {form.country_name.data}. Please re-enter the city or choose another country.")
 
     return render_template("add_city.html", form = form)
+
+@app.route("/verified", methods=["POST"])
+def add_city():
+
+    city_name = request.args.get("city_name")
+    country_name = request.args.get("country_name")
+        
+    country = Country.new_country(country_name)
+    city = City.new_city(city_name, country.id)
+    g.traveler.assign_city(city)
+
+    flash("New city added!")
+    return redirect("/")
 
 @app.route("/city/<int:city_id>/remove", methods=["POST"])
 def remove_city(city_id):
@@ -161,4 +211,27 @@ def remove_city(city_id):
     City.delete_city(city) # Only delete city if not associated with any traveler
 
     return redirect("/")
-        
+
+
+############################################################
+# Testing routes
+
+@app.route("/test", methods=["GET", "POST"])
+def tester():
+    """ This is for testing features only. To be used by developers only! """
+
+    # form = AddCityForm()
+
+    # response = requests.get("https://restcountries.com/v2/all?fields=name,currencies")
+
+    # form.country_name.choices = [(c["name"], c["name"]) for c in response.json()]
+
+    # if form.validate_on_submit():
+
+    #     if verify_city_country(form.city_name.data, form.country_name.data):
+    #         flash("Test successful!")
+
+    #     else:
+    #         flash("No match.")
+
+    # return render_template("test.html", form = form)

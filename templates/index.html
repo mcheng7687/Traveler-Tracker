@@ -2,9 +2,11 @@
 
 {% block contents %}
 
-<h2> Here are your cities: </h2>
+<h2 class="page-header"> Here are your cities: </h2>
 <br>
-{% if cities %}
+<div class="home-currency-code" style="display: none;">{{g.traveler.country.currency_code}}</div>
+
+
 <div class="container-fluid">
     <div class="row row-cols-4">
         {% for city in cities %}
@@ -13,7 +15,7 @@
                 <form action="/city/{{city.id}}/remove" method="POST">
                     <!-- Remove city from traveler home page-->
                     <div class="d-flex justify-content-between">
-                        <br>    
+                        <br>
                         <button type="submit" class="btn btn-outline-warning border-0">
                             <i class="fas fa-trash-alt" style="font-size:24px"></i>
                         </button>
@@ -27,8 +29,10 @@
                 <div id="{{city.name.replace(' ','')}}">
                     <!-- City Info -->
                 </div>
-                <div class="{{city.country.currency_code}} text-center">
-                    <!-- Foreign currency exchange info -->
+                <div class="{{city.country.currency_code}}">
+                    <p class="text-center">
+                        <!-- Foreign currency exchange info -->
+                    </p>
                 </div>
             </div>
         </div>
@@ -45,8 +49,7 @@
         </div>
     </div>
 </div>
-{% endif %}
 
 <script src="/static/API_Keys.js"></script>
-<script src="/static/script.js"></script>
+<script src="/static/index.js"></script>
 {% endblock %}

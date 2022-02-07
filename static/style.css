@@ -1,21 +1,49 @@
+body {
+     background-color: rgb(30, 30, 75);
+     /* background-image: '/static/images/skylines.png'; */
+     color:rgb(30, 30, 75);
+     font-family: 'Josefin Sans', sans-serif;
+}
+
+nav {
+    background-color:sandybrown;
+    color:rgb(30, 30, 75);
+}
+
+img {
+     width: 100px;
+     object-fit: contain;
+}
+
 .center-block {
     display: block;
     margin-left: auto;
     margin-right: auto;
- }
+}
 
- .city-block {
-     height: 300px;
+.city-block {
+     height: 350px;
      background: rgb(30, 30, 75);
      color: chartreuse;
- }
+     font-family: 'Zen Kurenaido', sans-serif;
+}
 
- .full {
+.full {
      height:100%;
      width:100%;
- }
+}
 
- body {
-     background-color: rgb(30, 30, 75);
-     color:sandybrown;
- }
+.tiny-text {
+     font-size: small;
+     text-align: right;
+}
+
+.page-header {
+     font-family: 'Bebas Neue', cursive;
+}
+
+#nav-title {
+     font-family: "Festive", cursive;
+     font-size:75px;
+     font-weight: bolder;
+}

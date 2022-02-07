@@ -22,21 +22,22 @@
 
 <nav class="navbar justify-content-between">
   <form type="submit" action="/">
-    <button class="btn btn-outline-warning border-0">
+    <button class="btn btn-outline-primary border-0">
       <i class="fas fa-home" style="font-size:24px"></i>
     </button>
   </form>
-  <!-- <a href="/" class="btn btn-warning btn-lg active" role="button" aria-pressed="true"> Home </a> -->
-  <span class="h1">
-    <strong>
-      Traveler Tracker
-    </strong>
+  <span id="nav-title" class="h1">
+    <img src="/static/images/suitcase.png">
+    Traveler Tracker
+    <img src="/static/images/travel.png">
   </span>
   <span>
     {% if g.traveler %}
-    <!-- <a href="/city/add"> Add City </a> -->
     <a> Hello {{ g.traveler.first_name }}! </a>
-    <a href="/logout"> Log Out </a>
+    <a href="/logout" class="tiny-text"> Log Out </a>
+    <p class="tiny-text">
+      <a href="/current_traveler"> Change profile </a>
+    </p>
     {% else %}
     <a href="/signup" class="btn btn-outline-warning btn-sm active" role="button" aria-pressed="true"> Sign Up </a>
     <a href="/login" class="btn btn-outline-warning btn-sm active" role="button" aria-pressed="true"> Login </a>
@@ -44,12 +45,28 @@
   </span>
 </nav>
 
-<body>
+<body background="/static/images/skylines.png">
+  <div class="container">
+    {% with messages = get_flashed_messages() %}
+    {% if messages %}
+    <ul class=flashes>
+      {% for message in messages %}
+      <h6>{{ message }}</h6>
+      {% endfor %}
+    </ul>
+    {% endif %}
+    {% endwith %}
 
-  {% block contents %}
-  {% endblock %}
+    {% block contents %}
+    {% endblock %}
+  </div>
 
 </body>
-
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link
+  href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Festive&family=Josefin+Sans:ital@1&family=Zen+Kurenaido&display=swap"
+  rel="stylesheet">
 <link rel="stylesheet" href="/static/style.css">
+
 </html>
