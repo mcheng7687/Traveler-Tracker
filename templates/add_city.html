@@ -1,15 +1,14 @@
 {% extends 'base.html' %}
 
 {% block contents %}
-<div class="container">
-    <h2 class="page-header">Add City</h2>
-    <br>
-    <form action="/city/add" method="POST">
-        {% include "form.html" %}
-        <button type="submit" class="btn btn-outline-warning">Find</button>
-        <a href="/" class="btn btn-outline-danger">Cancel</a>
-    </form>
-</div>
+
+<h2 class="page-header">Add City</h2>
+<br>
+<form action="/city/add" method="POST">
+    {% include "form.html" %}
+    <button type="submit" class="btn btn-outline-success">Find</button>
+    <a href="/" class="btn btn-outline-danger">Cancel</a>
+</form>
 
 
 {% endblock %}

@@ -2,14 +2,12 @@
 
 {% block contents %}
 
-<div class="container">
-    <h2 class="page-header">Sign Up</h2>
-    <br>
-    <form action="/signup" method="POST">
-        {% include "form.html" %}
-        <button type="submit" class="btn btn-outline-warning">Sign Up Now</button>
-    </form>
-</div>
+<h2 class="page-header">Sign Up</h2>
+<br>
+<form action="/signup" method="POST">
+    {% include "form.html" %}
+    <button type="submit" class="btn btn-outline-warning">Sign Up Now</button>
+</form>
 
 
 {% endblock %}

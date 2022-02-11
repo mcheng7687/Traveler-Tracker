@@ -2,15 +2,12 @@
 
 {% block contents %}
 
-<div class="container">
-    <h2 class="page-header">Update My Info</h2>
-    <br>
-    <form action="/current_traveler" method="POST">
-        {% include "form.html" %}
-        <button type="submit" class="btn btn-outline-warning"> Update Me </button>
-        <a href="/" class="btn btn-outline-danger">Cancel</a>
-    </form>
-</div>
-
+<h2 class="page-header">Update My Info</h2>
+<br>
+<form action="/current_traveler" method="POST">
+    {% include "form.html" %}
+    <button type="submit" class="btn btn-outline-warning"> Update Me </button>
+    <a href="/" class="btn btn-outline-danger">Cancel</a>
+</form>
 
 {% endblock %}

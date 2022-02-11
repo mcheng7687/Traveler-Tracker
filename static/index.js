@@ -51,8 +51,8 @@ async function getWeather(cityName) {
     return city;
 }
 
-//Update specific city weather conditions and local time in DOM
-//"city" arguement is of class City
+// Update specific city weather conditions and local time in DOM
+// "city" arguement is of class City
 function updateCityWeather(city) {
     console.log(city);
     $(`#${city.cityName.replace(" ", '')}`).html(`<h6 class="text-center">${city.localTime}</h6>
@@ -80,15 +80,6 @@ const cityNames = getCityList();
 const codes = new Set ();
 const base = $(".home-currency-code").text();
 
-// $(".btn").hover( function () {
-//     $(this).removeClass("btn-outline-primary");
-//     $(this).addClass("btn-primary");
-// }, function () {
-//     $(this).addClass("btn-outline-primary");
-//     $(this).removeClass("btn-primary");
-// });
-
-///*
 getExchangeRates(base).then(function(rates) {
     const currency_codes = getCurrencyCodes(cityNames);
 
@@ -101,12 +92,11 @@ getExchangeRates(base).then(function(rates) {
         getWeather(cityName.trim()).then(updateCityWeather);
     }
 });
-//*/
 
 const rep = setInterval(function () {
 
     for (let cityName of cityNames) {
-        // getWeather(cityName.trim()).then(updateCityWeather);
+        getWeather(cityName.trim()).then(updateCityWeather);
     }
 
 }, 300000);

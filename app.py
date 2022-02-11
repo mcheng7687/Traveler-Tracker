@@ -37,7 +37,15 @@ def home():
     else:
         return redirect("/signup")
 
+@app.route("/help")
+def help():
+    """ Help instructions. """
+    return render_template("help.html")
 
+@app.route("/secret")
+def secret():
+    """ THIS IS A SECRET! SHHH! """
+    return render_template("secret.html")
 
 ############################################################
 # Traveler methods
@@ -67,14 +75,12 @@ def signup():
 
     if form.validate_on_submit():
         try:
-            country = Country.new_country(form.current_country.data)
-
             traveler = Traveler.signup(
                 first_name = form.first_name.data,
                 last_name = form.last_name.data,
                 password = form.password.data,
                 email = form.email.data,
-                home_country = country.id
+                home_country = form.current_country.data
             )
 
         except IntegrityError:
@@ -127,6 +133,7 @@ def update_user():
             return redirect ("/")
 
         except IntegrityError:
+            db.session.rollback()
             flash("Email already taken", 'danger')
         
     form.current_country.data = g.traveler.country.name
@@ -185,8 +192,10 @@ def add_city_form():
 @app.route("/verified", methods=["POST"])
 def add_city():
 
-    city_name = request.args.get("city_name")
-    country_name = request.args.get("country_name")
+    # city_name = request.args.get("city_name")
+    # country_name = request.args.get("country_name")
+    city_name = request.form["city_name"]
+    country_name = request.form["country_name"]
         
     country = Country.new_country(country_name)
     city = City.new_city(city_name, country.id)

@@ -95,17 +95,18 @@ class Traveler(db.Model):
         db.session.commit()
 
     @classmethod
-    def signup(cls, first_name, last_name, email, password, home_country_id):
+    def signup(cls, first_name, last_name, email, password, home_country):
         """ Sign up traveler. Hashes password and adds traveler to system. """
 
         hashed_pwd = bcrypt.generate_password_hash(password).decode('UTF-8')
+        country = Country.new_country(home_country)
 
         traveler = Traveler(
-            first_name=first_name,
-            last_name=last_name,
-            email=email,
-            password=hashed_pwd,
-            home_country=home_country_id
+            first_name = first_name,
+            last_name = last_name,
+            email = email,
+            password = hashed_pwd,
+            home_country = country.id
         )
 
         db.session.add(traveler)
