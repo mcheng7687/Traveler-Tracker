@@ -3,13 +3,14 @@ from models import db, connect_db, Traveler, City, Country, TravelerCity
 from forms import TravelerForm, LoginTravelerForm, AddCityForm, UpdateTravelerForm
 from sqlalchemy.exc import IntegrityError
 import requests
+import os
 from API_Keys import WEATHER_API_KEY
 
 app = Flask(__name__)
-app.config["SQLALCHEMY_DATABASE_URI"] = "postgresql:///traveler_tracker"
+app.config["SQLALCHEMY_DATABASE_URI"] = os.environ.get('DATABASE_URL', 'postgresql:///traveler_tracker')
 app.config["SQLALCHEMY_TRACK_MODIFICATIONS"] = False
 app.config["SQLALCHEMY_ECHO"] = False
-app.config['SECRET_KEY'] = "abcdef"
+app.config['SECRET_KEY'] = os.environ.get('SECRET_KEY', 'abcdef')
 
 TRAVELER_KEY = "current_traveler"
 
