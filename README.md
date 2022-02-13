@@ -1,13 +1,12 @@
-See list below of API's necessary for "Traveler's Tracker":
+A user (aka Traveler) is able to track multiple cities. Multiple information is shown including local time, current weather conditions, and even current exchange rate. A single Traveler is able to create a login so their settings are stored.
+
+See list below of API's used for "Traveler's Tracker":
 
 City Country API
-https://documenter.getpostman.com/view/1134062/T1LJjU52#3698c13d-aabd-4b6f-9ee5-c4c609322316
-
-World Time API
-http://worldtimeapi.org/
+https://restcountries.com/#api-endpoints-v2-name
 
 Foreign Exchange Currency API
-https://www.exchangerate-api.com/docs/pair-conversion-requests
+https://www.exchangerate-api.com/docs/standard-requests
 
 Weather API
-https://www.metaweather.com/api/
+https://www.weatherapi.com/docs/
