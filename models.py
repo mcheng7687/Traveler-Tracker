@@ -12,18 +12,6 @@ def connect_db(app):
     db.app = app
     db.init_app(app)
 
-# def find_currency_code(country_name):
-#     """ Return currency code from 'country_name' from API @ 
-#         https://restcountries.com/#api-endpoints-v2-name
-#     """
-
-#     response = requests.get(f"https://restcountries.com/v2/name/{country_name}?fields=name,currencies")
-
-
-#     for city in response.json():
-#         if city["name"].lower() in country_name.lower():
-#             return city["currencies"][0]["code"]
-
 class Traveler(db.Model):
     """ Users aka 'Travelers' class """
 
