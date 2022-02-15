@@ -1,9 +1,13 @@
-DROP DATABASE IF EXISTS  traveler_tracker;
-CREATE DATABASE traveler_tracker;
+-- DROP DATABASE IF EXISTS  traveler_tracker;
+-- CREATE DATABASE traveler_tracker;
 
-\c traveler_tracker
+-- \c traveler_tracker
 
+DROP TABLE IF EXISTS traveler_city;
+DROP TABLE IF EXISTS traveler;
+DROP TABLE IF EXISTS city;
 DROP TABLE IF EXISTS country;
+
 CREATE TABLE country
 (
   id SERIAL PRIMARY KEY,
@@ -11,7 +15,6 @@ CREATE TABLE country
   currency_code TEXT
 );
 
-DROP TABLE IF EXISTS city;
 CREATE TABLE city
 (
   id SERIAL PRIMARY KEY,
@@ -19,7 +22,6 @@ CREATE TABLE city
   country_id INTEGER REFERENCES country(id)
 );
 
-DROP TABLE IF EXISTS traveler;
 CREATE TABLE traveler
 (
   id SERIAL PRIMARY KEY,
@@ -30,9 +32,9 @@ CREATE TABLE traveler
   home_country INTEGER REFERENCES country(id)
 );
 
-DROP TABLE IF EXISTS traveler_city;
 CREATE TABLE traveler_city
 (
-  traveler_id PRIMARY KEY REFERENCES traveler(id) ON DELETE CASCADE,
-  country_id PRIMARY KEY REFERENCES country(id) ON DELETE CASCADE
+  traveler_id INTEGER REFERENCES traveler(id) ON DELETE CASCADE,
+  country_id INTEGER REFERENCES country(id) ON DELETE CASCADE,
+  PRIMARY KEY (traveler_id, country_id)
 );

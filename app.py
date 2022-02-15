@@ -1,4 +1,4 @@
-from flask import Flask, render_template, flash, redirect, session, request, jsonify, g
+from flask import Flask, render_template, flash, redirect, session, request, g
 from models import db, connect_db, Traveler, City, Country, TravelerCity
 from forms import TravelerForm, LoginTravelerForm, AddCityForm, UpdateTravelerForm
 from sqlalchemy.exc import IntegrityError
@@ -15,7 +15,6 @@ app.config['SECRET_KEY'] = os.environ.get('SECRET_KEY', 'abcdef')
 TRAVELER_KEY = "current_traveler"
 
 connect_db(app)
-# db.create_all()
 
 @app.before_request
 def add_traveler_to_g():
