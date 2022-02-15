@@ -7,8 +7,8 @@ import os
 from API_Keys import WEATHER_API_KEY
 
 app = Flask(__name__)
-app.config["SQLALCHEMY_DATABASE_URI"] = "postgresql://gkmaooxhtiiram:0c2caff6a42ed88b455776e30342192218dfd2fc21bd671197661d295bb6fc9c@ec2-3-231-69-204.compute-1.amazonaws.com:5432/d3d36cq0eabi35"
-# os.environ.get('DATABASE_URL', 'postgresql:///traveler_tracker')
+DATABASE_URL = os.environ.get('DATABASE_URL', 'postgresql:///traveler_tracker')
+app.config["SQLALCHEMY_DATABASE_URI"] = DATABASE_URL.replace("postgres://","postgresql://")
 app.config["SQLALCHEMY_TRACK_MODIFICATIONS"] = False
 app.config["SQLALCHEMY_ECHO"] = False
 app.config['SECRET_KEY'] = os.environ.get('SECRET_KEY', 'abcdef')
