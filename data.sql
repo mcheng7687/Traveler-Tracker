@@ -35,6 +35,6 @@ CREATE TABLE traveler
 CREATE TABLE traveler_city
 (
   traveler_id INTEGER REFERENCES traveler(id) ON DELETE CASCADE,
-  country_id INTEGER REFERENCES country(id) ON DELETE CASCADE,
-  PRIMARY KEY (traveler_id, country_id)
+  city_id INTEGER REFERENCES city(id) ON DELETE CASCADE,
+  PRIMARY KEY (traveler_id, city_id)
 );

@@ -38,7 +38,7 @@ function getCurrencyCodes(cityNames) {
 // Accepts JSON from external API and return object
 async function getWeather(cityName) {
 
-    const cityInfo = await axios.get(`http://api.weatherapi.com/v1/current.json`, 
+    const cityInfo = await axios.get(`https://api.weatherapi.com/v1/current.json`, 
                                     {params: {"key": WEATHER_API_KEY, 
                                                 "q": cityName}});
 
