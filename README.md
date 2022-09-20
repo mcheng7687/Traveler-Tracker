@@ -10,3 +10,5 @@ https://www.exchangerate-api.com/docs/standard-requests
 
 Weather API
 https://www.weatherapi.com/docs/
+
+***Getting started:
